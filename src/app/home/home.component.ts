@@ -2,6 +2,7 @@ import {
   Component,
   OnInit
 } from '@angular/core';
+import * as electron from '../../electron';
 
 import { AppState } from '../app.service';
 import { Title } from './title';
@@ -32,6 +33,11 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit() {
     console.log('hello `Home` component');
+    electron.ipcRenderer.on('communicationTestReply', (event, arg) => {
+      console.log('+++ Event received: ', arg);
+    });
+    electron.ipcRenderer.send('communicationTest', 'Hi, I am the renderer process!');
+
     // this.title.getData().subscribe(data => this.data = data);
   }
 
